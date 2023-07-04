@@ -4,7 +4,6 @@ from django.db.models import Count
 from .models import Article, Category, Tag, Comments, Advertisments
 from django.contrib.auth.models import User
 from random import randint
-
 from django.utils import timezone
 from datetime import timedelta
 
@@ -15,6 +14,9 @@ popular_articles = Article.objects.order_by('-post_views')[:3]
 top_articles = Article.objects.annotate(num_comments=Count('comments')).order_by('-num_comments')[:3]
 
 def advertisements():
+    """
+    Returns 3 random advertisements, all of different types, from the table of advertisements.
+    """
     advertisements_square = Advertisments.objects.filter(banner_type = "square")
     square_index = randint(0, len(advertisements_square)-1)
     square = advertisements_square[square_index]
@@ -33,6 +35,9 @@ def advertisements():
 
 
 def home(request):
+    """
+    Displayes the homepage of the site.
+    """
     article_details = Article.objects.order_by('-created_at')
     article_header = Article.objects.order_by('-post_views') #you need to EDITTT
 
@@ -51,6 +56,9 @@ def home(request):
     return render(request, 'index.html', returned)
 
 def details(request, pk):
+    """
+    Displays a webpage with all the details of a single article
+    """
     article = Article.objects.filter(id = pk).first()
     article.post_views = article.post_views + 1
     article.save()
@@ -96,6 +104,9 @@ def details(request, pk):
     return render(request, 'single-article.html', returned)
 
 def category(request, cat):
+    """
+    Displays all the articles under a specific category.
+    """
     category_details = Category.objects.get(category_name = cat)
     category_articles = category_details.article_set.all()
 
@@ -112,6 +123,9 @@ def category(request, cat):
     return render(request, 'category.html', returned)
 
 def tags(request, tag):
+    """
+    Displays all the articles under a specific tag.
+    """
     tag_details = Tag.objects.get(tag_name = tag)
     tag_articles = tag_details.article_set.all().order_by('post_views')
 
@@ -128,6 +142,9 @@ def tags(request, tag):
     return render(request, 'tag.html', returned)
 
 def author(request, author):
+    """
+    Displays all the details of a specific author author
+    """
     author_details = User.objects.get(id=author)
     author_articles = Article.objects.filter(author_id=author).order_by('-created_at')
 
