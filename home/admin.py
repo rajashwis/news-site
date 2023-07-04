@@ -6,7 +6,6 @@ from django.contrib import admin
 from home.models import Article, Tag, Category, Comments, Advertisments
 
 class ArticleAdmin(admin.ModelAdmin):
-    readonly_fields = ['title', 'author', 'summary', 'content']
 
     list_display = ('title', 'author', 'id')
     exclude = ('author', 'post_views')

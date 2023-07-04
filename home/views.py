@@ -39,7 +39,7 @@ def home(request):
     Displayes the homepage of the site.
     """
     article_details = Article.objects.order_by('-created_at')
-    article_header = Article.objects.order_by('-post_views') #you need to EDITTT
+    article_header = Article.objects.order_by('-post_views')
 
 
     returned = {
