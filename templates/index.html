@@ -34,7 +34,7 @@
                             <div class="shadoweffect">
                                 <div class="shadow-desc">
                                     <div class="blog-meta">
-                                        <span class="bg-orange"><a href="tech-category-01.html" title="">{{article_header.0.category}}</a></span>
+                                        <span class="bg-orange"><a href="{%url 'category' article_header.0.category%}" title="">{{article_header.0.category}}</a></span>
                                         <h4><a href="{%url 'article-detail' article_header.0.id%}" title="">{{ article_header.0.title }}</a></h4>
                                         <small>{{article_header.0.created_at}}</small>
                                         <small><a href="{%url 'author' article_header.0.author_id %}" title="">by {{ article_header.0.author.first_name}} {{ article_header.0.author.last_name}}</a></small>

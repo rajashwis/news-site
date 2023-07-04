@@ -14,7 +14,7 @@
             <h4><a href="{% url 'article-detail' article.pk %}" title="">{{article.title}}</a></h4>
             <p>{{article.summary | safe}}</p>
             <small class="firstsmall"><a class="bg-orange" href="{% url 'category' article.category %}" title="">{{ article.category }}</a></small>
-            <small><a href="/" title="">{{article.created_at}}</a></small>
+            <small>{{article.created_at}}</a></small>
             <small><a href="{% url 'author' article.author_id %}" title="">by {{article.author.first_name}} {{article.author.last_name}}</a></small>
             <small><i class="fa fa-eye"></i> {{ article.post_views }}</small>
         </div><!-- end meta -->
