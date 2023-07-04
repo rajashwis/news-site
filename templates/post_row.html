@@ -1,0 +1,25 @@
+{% for article in list_of_articles %}
+
+    <div class="blog-box row">
+        <div class="col-md-4">
+            <div class="post-media small-media">
+                <a href="tech-single.html" title="">
+                    <img src="{{ article.image.url }}" alt="" class="img-fluid">
+                    <div class="hovereffect"></div>
+                </a>
+            </div><!-- end media -->
+        </div><!-- end col -->
+
+        <div class="blog-meta big-meta col-md-8">
+            <h4><a href="{% url 'article-detail' article.pk %}" title="">{{article.title}}</a></h4>
+            <p>{{article.summary | safe}}</p>
+            <small class="firstsmall"><a class="bg-orange" href="{% url 'category' article.category %}" title="">{{ article.category }}</a></small>
+            <small><a href="/" title="">{{article.created_at}}</a></small>
+            <small><a href="{% url 'author' article.author_id %}" title="">by {{article.author.first_name}} {{article.author.last_name}}</a></small>
+            <small><i class="fa fa-eye"></i> {{ article.post_views }}</small>
+        </div><!-- end meta -->
+    </div><!-- end blog-box -->
+
+    <hr class="invis">
+
+{% endfor %}
