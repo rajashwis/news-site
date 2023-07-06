@@ -5,7 +5,8 @@ from .models import Article, Category, Tag, Comments, Advertisments
 from django.contrib.auth.models import User
 from random import randint
 from django.utils import timezone
-from datetime import timedelta
+from rest_framework import viewsets
+from .serializers import ArticleSerializer
 
 # Create your views here.
 
@@ -159,3 +160,7 @@ def author(request, author):
         'top_articles': top_articles
     }
     return render(request, 'author.html', returned)
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all().order_by("title")
+    serializer_class = ArticleSerializer

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "home",
     "ckeditor",
+    "rest_framework",
 ]
 
 CKEDITOR_UPLOAD_PATH = 'media/articles'
