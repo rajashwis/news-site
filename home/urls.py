@@ -1,9 +1,12 @@
 from django.urls import path, include
-from .views import home, details, category, tags, author, ArticleViewSet
+from .views import home, details, category, tags, author, ArticleViewSet, AuthorViewSet, TagViewSet, CategoryViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'articles', ArticleViewSet, basename="Article")
+router.register(r'authors', AuthorViewSet, basename="Authors")
+router.register(r'tags', TagViewSet, basename="Tags")
+router.register(r'categories', CategoryViewSet, basename="Categories")
 
 urlpatterns = [
     path('', home, name='home'),

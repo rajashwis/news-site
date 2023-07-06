@@ -5,8 +5,9 @@ from .models import Article, Category, Tag, Comments, Advertisments
 from django.contrib.auth.models import User
 from random import randint
 from django.utils import timezone
-from rest_framework import viewsets
-from .serializers import ArticleSerializer
+from rest_framework import viewsets, filters
+from .serializers import ArticleSerializer, AuthorSerializer, TagSerializer, CategorySerializer
+from rest_framework.pagination import LimitOffsetPagination
 
 # Create your views here.
 
@@ -161,6 +162,30 @@ def author(request, author):
     }
     return render(request, 'author.html', returned)
 
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset =User.objects.all().order_by("first_name")
+    serializer_class = AuthorSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'first_name']
+    pagination_class = LimitOffsetPagination
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all().order_by("category_name")
+    serializer_class = CategorySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['category_name']
+    pagination_class = LimitOffsetPagination
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all().order_by("tag_name")
+    serializer_class = TagSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['tag_name']
+    pagination_class = LimitOffsetPagination
+
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by("title")
     serializer_class = ArticleSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'id', 'category__category_name', 'tags__tag_name']
+    pagination_class = LimitOffsetPagination
