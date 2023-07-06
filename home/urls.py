@@ -16,5 +16,6 @@ urlpatterns = [
     path('category/<str:cat>', category, name = 'category'),
     path('tag/<str:tag>', tags, name = 'tag'),
     path('author/<int:author>', author, name = 'author'),
-    path('api', include(router.urls)),
+    path('api/', include(router.urls)),
+    path('api/', include('rest_framework.urls')),
 ]

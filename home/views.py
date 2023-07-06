@@ -8,6 +8,8 @@ from django.utils import timezone
 from rest_framework import viewsets, filters
 from .serializers import ArticleSerializer, AuthorSerializer, TagSerializer, CategorySerializer, CommentsSerializer, AdvertismentsSerializer
 from rest_framework.pagination import LimitOffsetPagination
+from .permissions import IsOwnerOrReadOnly
+from rest_framework import permissions
 
 # Create your views here.
 
@@ -190,6 +192,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         author = User.objects.get(id=self.request.user.id)
         serializer.save(author=author)
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'id', 'category__category_name', 'tags__tag_name']

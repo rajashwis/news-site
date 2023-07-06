@@ -4,7 +4,9 @@ from .models import Article, User, Tag, Category, Comments, Advertisments
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['title', 'author', 'summary', 'image', 'content', 'category', 'tags', 'created_at']
+        fields = ['title', 'summary', 'image', 'content', 'category', 'tags', 'created_at']
+
+        author = serializers.ReadOnlyField(source='author.username')
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:

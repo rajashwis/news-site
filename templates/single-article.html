@@ -42,6 +42,7 @@
                                 <div class="blog-meta big-meta">
                                     <small><a href="/" title="">{{article.created_at}}</a></small>
                                     <small><a href="/author/{{article.author_id}}" title="">by {{article.author.first_name}} {{article.author.last_name}}</a></small>
+                                    <small><a href="/api/articles/{{article.id}}/?format=json" title="">JSON</a></small>
                                     <small><i class="fa fa-eye"></i> {{ article.post_views }}</small>
                                 </div><!-- end meta -->
 
