@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from random import randint
 from django.utils import timezone
 from rest_framework import viewsets, filters
-from .serializers import ArticleSerializer, AuthorSerializer, TagSerializer, CategorySerializer
+from .serializers import ArticleSerializer, AuthorSerializer, TagSerializer, CategorySerializer, CommentsSerializer, AdvertismentsSerializer
 from rest_framework.pagination import LimitOffsetPagination
 
 # Create your views here.
@@ -186,6 +186,25 @@ class TagViewSet(viewsets.ModelViewSet):
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by("title")
     serializer_class = ArticleSerializer
+
+    def perform_create(self, serializer):
+        author = User.objects.get(id=self.request.user.id)
+        serializer.save(author=author)
+
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'id', 'category__category_name', 'tags__tag_name']
+    pagination_class = LimitOffsetPagination
+
+class CommentsViewSet(viewsets.ModelViewSet):
+    queryset = Comments.objects.all().order_by("name")
+    serializer_class = CommentsSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+    pagination_class = LimitOffsetPagination
+
+class AdvertisementsViewSet(viewsets.ModelViewSet):
+    queryset = Advertisments.objects.all().order_by("alt")
+    serializer_class = AdvertismentsSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['alt']
     pagination_class = LimitOffsetPagination
