@@ -2,11 +2,17 @@ from rest_framework import serializers
 from .models import Article, User, Tag, Category, Comments, Advertisments
 
 class ArticleSerializer(serializers.ModelSerializer):
+
+    tags = serializers.SerializerMethodField()
+
     class Meta:
         model = Article
         fields = ['title', 'summary', 'image', 'content', 'category', 'tags', 'created_at']
 
         author = serializers.ReadOnlyField(source='author.username')
+
+    def get_tags(self, obj):
+        return ', '.join(str(tag.id) for tag in obj.tags.all())
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:

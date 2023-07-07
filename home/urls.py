@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import home, details, category, tags, author, ArticleViewSet, AuthorViewSet, TagViewSet, CategoryViewSet, CommentsViewSet, AdvertisementsViewSet
+from .views import home, details, category, tags, author, videos, ArticleViewSet, AuthorViewSet, TagViewSet, CategoryViewSet, CommentsViewSet, AdvertisementsViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -16,6 +16,7 @@ urlpatterns = [
     path('category/<str:cat>', category, name = 'category'),
     path('tag/<str:tag>', tags, name = 'tag'),
     path('author/<int:author>', author, name = 'author'),
+    path('videos', videos, name = 'videos'),
     path('api/', include(router.urls)),
     path('api/', include('rest_framework.urls')),
 ]

@@ -13,6 +13,10 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'videos' %}">Videos</a>
+                    </li>
+
                     {% for category in categories %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'category' category%}">{{category}}</a>

@@ -11,11 +11,33 @@ from rest_framework.pagination import LimitOffsetPagination
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import permissions
 
+
+import googleapiclient.discovery
+
 # Create your views here.
 
 categories = Category.objects.annotate(popular=models.Count('article')).order_by('-popular')
 popular_articles = Article.objects.order_by('-post_views')[:3]
 top_articles = Article.objects.annotate(num_comments=Count('comments')).order_by('-num_comments')[:3]
+
+def youtube_videos():
+    api_service_name = "youtube"
+    api_version = "v3"
+    DEVELOPER_KEY = "AIzaSyAxNgGrIAJotqa-pOA2A2XtulaUioZzeHk"
+
+    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
+
+    api_request = youtube.playlistItems().list(
+        part="snippet,contentDetails",
+        playlistId="UUE80xxtgnBxqb3DR6ThohvA",
+        maxResults=10
+    )
+
+    response = api_request.execute()
+
+    videos = response['items'][:3]
+
+    return videos
 
 def advertisements():
     """
@@ -45,6 +67,7 @@ def home(request):
     article_details = Article.objects.order_by('-created_at')
     article_header = Article.objects.order_by('-post_views')
 
+    sidebar_videos = youtube_videos()
 
     returned = {
         'categories': (categories.order_by('category_name'))[:5], 
@@ -54,8 +77,10 @@ def home(request):
         'square': advertisements()[0],
         'h_rect': advertisements()[1],
         'v_rect': advertisements()[2],
-        'top_articles': top_articles
+        'top_articles': top_articles,
+        'sidebar_videos': sidebar_videos,
     }
+
     
     return render(request, 'index.html', returned)
 
@@ -88,6 +113,7 @@ def details(request, pk):
     comments_number = len(comments)
 
     current_date = timezone.now()
+    sidebar_videos = youtube_videos()
 
     returned = {
         'article': article, 
@@ -102,7 +128,8 @@ def details(request, pk):
         'h_rect': advertisements()[1],
         'v_rect': advertisements()[2],
         'top_articles': top_articles,
-        'current_date': current_date
+        'current_date': current_date,
+        'sidebar_videos': sidebar_videos,
     }
     
     return render(request, 'single-article.html', returned)
@@ -113,6 +140,7 @@ def category(request, cat):
     """
     category_details = Category.objects.get(category_name = cat)
     category_articles = category_details.article_set.all()
+    sidebar_videos = youtube_videos()
 
     returned = {
         'square': advertisements()[0],
@@ -122,7 +150,8 @@ def category(request, cat):
         'category_articles': category_articles, 
         'popular_articles': popular_articles, 
         'categories': categories[:5],
-        'top_articles': top_articles
+        'top_articles': top_articles,
+        'sidebar_videos': sidebar_videos,
     }
     return render(request, 'category.html', returned)
 
@@ -132,6 +161,7 @@ def tags(request, tag):
     """
     tag_details = Tag.objects.get(tag_name = tag)
     tag_articles = tag_details.article_set.all().order_by('post_views')
+    sidebar_videos = youtube_videos()
 
     returned = {
         'tag': tag, 
@@ -141,16 +171,18 @@ def tags(request, tag):
         'square': advertisements()[0],
         'h_rect': advertisements()[1],
         'v_rect': advertisements()[2],
+        'sidebar_videos': sidebar_videos,
     }
 
     return render(request, 'tag.html', returned)
 
 def author(request, author):
     """
-    Displays all the details of a specific author author
+    Displays all the details of a specific author
     """
     author_details = User.objects.get(id=author)
     author_articles = Article.objects.filter(author_id=author).order_by('-created_at')
+    sidebar_videos = youtube_videos()
 
     returned = {
         'square': advertisements()[0],
@@ -160,9 +192,28 @@ def author(request, author):
         'author_articles': author_articles, 
         'popular_articles': popular_articles, 
         'categories': categories[:5], 
-        'top_articles': top_articles
+        'top_articles': top_articles,
+        'sidebar_videos': sidebar_videos,
     }
     return render(request, 'author.html', returned)
+
+def videos(request):
+
+    videos = youtube_videos()
+    sidebar_videos = videos[:3]
+
+    returned = {
+        'square': advertisements()[0],
+        'h_rect': advertisements()[1],
+        'v_rect': advertisements()[2],
+        'popular_articles': popular_articles, 
+        'categories': categories[:5], 
+        'top_articles': top_articles,
+        'videos': videos,
+        'sidebar_videos': sidebar_videos,
+    }
+
+    return render(request, 'videos.html', returned)
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset =User.objects.all().order_by("first_name")

@@ -5,6 +5,11 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 
+#AIzaSyAxNgGrIAJotqa-pOA2A2XtulaUioZzeHk
+
+#UUE80xxtgnBxqb3DR6ThohvA
+#uploads playlist key
+
 class Tag(models.Model):
     tag_name = models.CharField(max_length=255)
 

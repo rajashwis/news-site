@@ -1714,3 +1714,27 @@ hr.invis3 {
     -o-border-radius: 50%;
     border-radius: 50%
 }
+
+/*video additions lol*/
+.vid-container {
+    display: flex;
+}
+
+.vid-column {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+#existing-iframe-example {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .column h2 {
+    margin-top: 10px;
+  }
+  
+  .column p {
+    margin-top: 5px;
+  }
