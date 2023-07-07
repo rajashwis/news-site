@@ -10,6 +10,7 @@ from .serializers import ArticleSerializer, AuthorSerializer, TagSerializer, Cat
 from rest_framework.pagination import LimitOffsetPagination
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import permissions
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 import googleapiclient.discovery
@@ -30,12 +31,12 @@ def youtube_videos():
     api_request = youtube.playlistItems().list(
         part="snippet,contentDetails",
         playlistId="UUE80xxtgnBxqb3DR6ThohvA",
-        maxResults=10
+        maxResults=3
     )
 
     response = api_request.execute()
 
-    videos = response['items'][:3]
+    videos = response['items']
 
     return videos
 
@@ -199,8 +200,34 @@ def author(request, author):
 
 def videos(request):
 
-    videos = youtube_videos()
+    api_service_name = "youtube"
+    api_version = "v3"
+    DEVELOPER_KEY = "AIzaSyAxNgGrIAJotqa-pOA2A2XtulaUioZzeHk"
+
+    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
+
+    api_request = youtube.playlistItems().list(
+        part="snippet,contentDetails",
+        playlistId="UUE80xxtgnBxqb3DR6ThohvA",
+        maxResults=10
+    )
+
+    response = api_request.execute()
+
+    videos = response['items']
     sidebar_videos = videos[:3]
+
+    paginator = Paginator(videos, 3)  # Number of videos per page
+    page = request.GET.get('page')
+
+    try:
+        videos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver the first page
+        videos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver the last page
+        videos = paginator.page(paginator.num_pages)
 
     returned = {
         'square': advertisements()[0],
