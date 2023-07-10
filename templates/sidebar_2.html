@@ -88,7 +88,7 @@
 
         <!--I ADDED EXTRA-->
         <div class="widget">
-            <h2 class="widget-title">Videos</h2>
+            <h2 class="widget-title"><a href = "/videos">Videos</a></h2>
             <div class="trend-videos">
 
                 {% for video in sidebar_videos %}
@@ -98,7 +98,7 @@
                             <div id="player"></div>
 
                             <iframe id=
-                                "existing-iframe-example"
+                                "ytplayer"
                                 width="300" height="150"
                                 src="https://www.youtube.com/embed/{{video.snippet.resourceId.videoId}}?enablejsapi=1"
                                 frameborder="0" allow="fullscreen"

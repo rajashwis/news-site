@@ -47,17 +47,20 @@
                                 {% for video in videos %}
 
                                     <div class="blog-box">
+
                                         <div class="post-media">
 
                                             <div id="player"></div>
 
-                                        <iframe id=
-                                            "existing-iframe-example"
-                                            width="800" height="200"
-                                            src="https://www.youtube.com/embed/{{video.snippet.resourceId.videoId}}?enablejsapi=1"
-                                            frameborder="0" allow="fullscreen"
-                                        ></iframe>
+                                            <iframe id=
+                                                "ytplayer"
+                                                width="800" height="460"
+                                                src="https://www.youtube.com/embed/{{video.snippet.resourceId.videoId}}?enablejsapi=1"
+                                                frameborder="0" allow="fullscreen"
+                                            ></iframe>
+
                                         </div>
+                                   
                                         <!-- end media -->
                                         <div class="blog-meta big-meta text-center">
                                             <div class="post-sharing">
@@ -67,13 +70,12 @@
                                                     <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
                                                 </ul>
                                             </div><!-- end post-sharing -->
-                                            <h4><a href="tech-single.html" title="">{{ video.snippet.title }}</a></h4>
-                                            <p>DESC</p>
-                                            <small><a href="tech-category.html" title="">Videos</a></small>
-                                            <small><a href="tech-single.html" title="">18 July, 2017</a></small>
-                                            <small><a href="tech-author.html" title="">by {{video.snippet.videoOwnerChannelTitle}}</a></small>
-                                            <small><a href="#" title=""><i class="fa fa-eye"></i> 1114</a></small>
+                                            <h4><a href="https://www.youtube.com/watch?v={{video.snippet.resourceId.videoId}}" target="_blank" title="">{{ video.snippet.title }}</a></h4>
+                                            <small><a href="/videos" title="">Videos</a></small>
+                                            <small>{{video.snippet.publishedAt|slice:"0:10"}}</small>
+                                            <small><a href="https://www.youtube.com/@{{video.snippet.videoOwnerChannelTitle}}" target="_blank" title="">by {{video.snippet.videoOwnerChannelTitle}}</a></small>
                                         </div><!-- end meta -->
+
                                     </div><!-- end blog-box -->
 
                                     <hr class="invis">

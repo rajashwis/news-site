@@ -209,7 +209,7 @@ def videos(request):
     api_request = youtube.playlistItems().list(
         part="snippet,contentDetails",
         playlistId="UUE80xxtgnBxqb3DR6ThohvA",
-        maxResults=10
+        maxResults=50
     )
 
     response = api_request.execute()
@@ -217,7 +217,7 @@ def videos(request):
     videos = response['items']
     sidebar_videos = videos[:3]
 
-    paginator = Paginator(videos, 3)  # Number of videos per page
+    paginator = Paginator(videos, 8)  # Number of videos per page
     page = request.GET.get('page')
 
     try:
