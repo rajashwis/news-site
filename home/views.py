@@ -290,3 +290,4 @@ class AdvertisementsViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['alt']
     pagination_class = LimitOffsetPagination
+   

@@ -23,9 +23,6 @@ class ArticleAdmin(admin.ModelAdmin):
         if obj and obj.author == request.user: 
             return True  
         return False 
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_name', 'category_details')
    
 
 # Register your models here.
@@ -33,6 +30,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Tag)
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Category)
 admin.site.register(Comments)
 admin.site.register(Advertisments)
